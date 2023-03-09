@@ -11,7 +11,9 @@ pub fn not_found() -> Html {
     html! {
       <div class="content-style">
         <h1 style={"display:inline;margin:0;font-size:1rem;color:#4338ca"}>{"Error 404: Not Found"}</h1>
-        <button onclick={go_back}>{"Go Back"}</button>
+        <button style={"font-size:10px;color:red"} onclick={go_back}>
+          {"Go Back"}
+        </button>
       </div>
     }
 }
