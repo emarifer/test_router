@@ -26,25 +26,29 @@ self.addEventListener("activate", (event) => {
   event.waitUntil(clients.claim());
 });
 
-// Network first, falling back to cache. VER:
-// https://developer.chrome.com/docs/workbox/caching-strategies-overview/#network-first-falling-back-to-cache
+// Cache first, falling back to network. VER:
+// https://developer.chrome.com/docs/workbox/caching-strategies-overview/#cache-first-falling-back-to-network
 self.addEventListener("fetch", (event) => {
   // Check if this is a navigation request
   if (event.request.mode === "navigate") {
-    // Open the cache
     event.respondWith(
       caches.open(cacheName).then((cache) => {
-        // Go to the network first
-        return fetch(event.request.url)
-          .then((fetchedResponse) => {
+        // Go to the cache first
+        return cache.match("/test_router/").then((cachedResponse) => {
+          // Return a cached response if we have one
+          if (cachedResponse) {
+            return cachedResponse;
+          }
+
+          // Otherwise, hit the network
+          return fetch(event.request).then((fetchedResponse) => {
+            // Add the network response to the cache for later visits
             cache.put(event.request, fetchedResponse.clone());
 
+            // Return the network response
             return fetchedResponse;
-          })
-          .catch(() => {
-            // If the network is unavailable, get
-            return caches.match("/test_router/");
           });
+        });
       })
     );
   } else {
