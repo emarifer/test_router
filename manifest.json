@@ -1,0 +1,17 @@
+{
+  "name": "Yew Router Demo + PWA",
+  "short_name": "Yew + PWA",
+  "icons": [
+    {
+      "src": "/test_router/favicon.png",
+      "sizes": "320x320",
+      "type": "image/png"
+    }
+  ],
+  "lang": "en-US",
+  "scope": "/test_router/",
+  "start_url": "/test_router/",
+  "display": "standalone",
+  "background_color": "#00bfff",
+  "theme_color": "#00bfff"
+}
